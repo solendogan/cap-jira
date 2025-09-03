@@ -1,0 +1,35 @@
+_schema-version: 3.3.0
+ID: cap-jira.dev
+extends: cap-jira
+
+modules:
+  - name: cap-jira-srv
+    properties:
+      NODE_ENV: development
+      # Override JIRA configuration for development
+      JIRA_BASE_URL: https://sanofi.atlassian.net
+      USE_DESTINATION: false
+      DEBUG: true
+    requires:
+      - name: cap-jira-destination
+        properties:
+          # Override destination configuration for dev
+          DESTINATION_DEBUG: true
+
+resources:
+  - name: cap-jira-destination
+    parameters:
+      config:
+        init_data:
+          instance:
+            destinations:
+              - Name: "jira-api-dev"
+                Description: "JIRA API Connection - Development"
+                URL: "https://sanofi.atlassian.net"
+                Type: "HTTP"
+                ProxyType: "Internet"
+                Authentication: "BasicAuthentication"
+                # Additional properties for development
+                HTML5Runtime_enabled: false
+                WebIDEEnabled: true
+            existing_destinations_policy: "update"

@@ -1,0 +1,43 @@
+_schema-version: 3.3.0
+ID: cap-jira.prod
+extends: cap-jira
+
+modules:
+  - name: cap-jira-srv
+    parameters:
+      instances: 2
+      memory: 1GB
+    properties:
+      NODE_ENV: production
+      # Production JIRA configuration
+      USE_DESTINATION: true
+      JIRA_DESTINATION_NAME: jira-api-prod
+      LOG_LEVEL: warn
+    requires:
+      - name: cap-jira-destination
+      - name: cap-jira-xsuaa
+      - name: cap-jira-db
+
+resources:
+  - name: cap-jira-destination
+    parameters:
+      service-plan: standard
+      config:
+        init_data:
+          instance:
+            destinations:
+              - Name: "jira-api-prod"
+                Description: "JIRA API Connection - Production"
+                URL: "https://sanofi.atlassian.net"
+                Type: "HTTP"
+                ProxyType: "Internet"
+                Authentication: "BasicAuthentication"
+                HTML5Runtime_enabled: false
+                # Production specific settings
+                TrustAll: false
+                Timeout: 30000
+            existing_destinations_policy: "update"
+  
+  - name: cap-jira-db
+    parameters:
+      service-plan: hdi-shared
