@@ -1,0 +1,48 @@
+{
+  "xsappname": "cap-jira",
+  "tenant-mode": "dedicated",
+  "description": "Security profile for CAP JIRA Integration",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Administrator access to JIRA service"
+    },
+    {
+      "name": "$XSAPPNAME.User",
+      "description": "User access to JIRA service"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "Admin",
+      "description": "Administrator role for JIRA service",
+      "scope-references": [
+        "$XSAPPNAME.Admin"
+      ]
+    },
+    {
+      "name": "User",
+      "description": "User role for JIRA service",
+      "scope-references": [
+        "$XSAPPNAME.User"
+      ]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "JiraAdmin",
+      "description": "JIRA Administrator Collection",
+      "role-template-references": [
+        "$XSAPPNAME.Admin"
+      ]
+    },
+    {
+      "name": "JiraUser",
+      "description": "JIRA User Collection",
+      "role-template-references": [
+        "$XSAPPNAME.User"
+      ]
+    }
+  ]
+}

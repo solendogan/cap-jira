@@ -1,0 +1,74 @@
+_schema-version: 3.3.0
+ID: cap-jira
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: cap-jira-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+      memory: 512MB
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: cap-jira-db
+      - name: cap-jira-destination
+      - name: cap-jira-xsuaa
+    properties:
+      NODE_ENV: production
+      # JIRA configuration will be provided via destination service
+
+  - name: cap-jira-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: cap-jira-db
+
+resources:
+  - name: cap-jira-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  
+  - name: cap-jira-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: false
+        init_data:
+          instance:
+            destinations:
+              - Name: "jira-api"
+                Description: "JIRA API Connection"
+                URL: "https://sanofi.atlassian.net"
+                Type: "HTTP"
+                ProxyType: "Internet"
+                Authentication: "BasicAuthentication"
+                # User and Password will be configured manually after deployment
+            existing_destinations_policy: "update"
+  
+  - name: cap-jira-xsuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
