@@ -140,7 +140,7 @@ class JiraClient {
       AND key != ISHSINGTMS-1004
       AND key != ISHSINGTMS-1006
       AND key != ROLATAMP0G-3791
-      AND key != ROLATAMP0G-3793 AND "Sub-Task Category[Dropdown]" not in ("Build %26 UT")
+      AND key != ROLATAMP0G-3793 AND "Sub-Task Category[Dropdown]" not in ("Build & UT")
       ORDER BY assignee ASC, project ASC, created DESC`;
 
       console.log("Fetching my open ABAP issues with JQL:", jql);
