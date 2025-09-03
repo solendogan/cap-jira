@@ -26,5 +26,23 @@
   "scripts": {
     "start": "cds-serve"
   },
-  "cds": {}
+  "cds": {
+    "requires": {
+      "[development]": {
+        "db": {
+          "kind": "sqlite",
+          "impl": "@cap-js/sqlite"
+        }
+      },
+      "[production]": {
+        "db": {
+          "kind": "hana",
+          "impl": "@cap-js/hana"
+        }
+      }
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
+    }
+  }
 }

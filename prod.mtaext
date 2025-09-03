@@ -5,7 +5,7 @@ extends: cap-jira
 modules:
   - name: cap-jira-srv
     parameters:
-      instances: 2
+      instances: 1
       memory: 1GB
     properties:
       NODE_ENV: production
