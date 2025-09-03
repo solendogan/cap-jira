@@ -146,6 +146,34 @@ class JiraService extends cds.ApplicationService {
     }
   }
 
+  async getAbapOpenIssues(req) {
+    // For functions, parameters come in req.data for actions or directly in req for functions
+    // const maxResults = req.maxResults || req.data?.maxResults || 50;
+    // const startAt = req.startAt || req.data?.startAt || 0;
+
+    console.log(`Fetching my open issues`);
+
+    try {
+      const result = await this.jiraClient.getAbapOpenIssues();
+      if (result.success) {
+        console.log(`Found ${result.data.total} total open issues assigned to current user, returning ${result.data.issues.length} issues`);
+        // Return as JSON string since CDS function returns String
+        return JSON.stringify({
+          issues: result.data.issues,
+          total: result.data.total,
+          isLast: result.data.isLast,
+          hasMore: !result.data.isLast,
+          jqlUsed: 'assignee = currentUser() AND status not in (Done, Closed, Resolved)'
+        });
+      } else {
+        throw new Error(`Failed to fetch my open issues: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Error fetching my open issues:', error.message);
+      throw new Error(`Failed to fetch my open issues: ${error.message}`);
+    }
+  }
+
   async syncIssues() {
     try {
       const result = await this.jiraClient.searchIssues('updated >= -1d');

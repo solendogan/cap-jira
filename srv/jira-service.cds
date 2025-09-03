@@ -37,4 +37,5 @@ service JiraService {
   function getProjects()                     returns array of Projects;
 
   function getMyOpenIssues() returns String; // Returns JSON string with my open issues
+  function getAbapOpenIssues() returns String; // Returns JSON string with my open ABAP issues
 }
