@@ -1,7 +1,7 @@
 _schema-version: 3.3.0
 ID: cap-jira
 version: 1.0.0
-description: "A simple CAP project."
+description: "A CAP wrapper for JIRA API."
 parameters:
   enable-parallel-deployments: true
 build-parameters:
