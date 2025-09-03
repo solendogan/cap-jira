@@ -1,6 +1,7 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
     {
       "name": "cds serve",
       "request": "launch",
@@ -15,6 +16,24 @@
       "skipFiles": [
         "<node_internals>/**"
       ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug jira-client.js",
+      "program": "${workspaceFolder}/srv/jira-client.js",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Debug CAP Application (Attach)",
+      "processId": "${command:PickProcess}",
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }
