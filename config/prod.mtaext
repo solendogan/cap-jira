@@ -11,32 +11,15 @@ modules:
       NODE_ENV: production
       # Production JIRA configuration
       USE_DESTINATION: true
-      JIRA_DESTINATION_NAME: jira-api-prod
+      JIRA_DESTINATION_NAME: jira
       LOG_LEVEL: warn
     requires:
+      - name: cap-jira-db
       - name: cap-jira-destination
       - name: cap-jira-xsuaa
-      - name: cap-jira-db
 
 resources:
-  - name: cap-jira-destination
-    parameters:
-      service-plan: standard
-      config:
-        init_data:
-          instance:
-            destinations:
-              - Name: "jira-api-prod"
-                Description: "JIRA API Connection - Production"
-                URL: "https://sanofi.atlassian.net"
-                Type: "HTTP"
-                ProxyType: "Internet"
-                Authentication: "BasicAuthentication"
-                HTML5Runtime_enabled: false
-                # Production specific settings
-                TrustAll: false
-                Timeout: 30000
-            existing_destinations_policy: "update"
+  # Using existing jira destination - no overrides needed for production
   
   - name: cap-jira-db
     parameters:

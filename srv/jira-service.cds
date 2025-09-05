@@ -32,10 +32,14 @@ service JiraService {
                        summary: String,
                        description: String)  returns String;
 
-  // Configuration functions
+  // Configuration functions - public for testing
+  @open
   function testConnection()                  returns String;
+  @open
   function getProjects()                     returns array of Projects;
 
+  @open
   function getMyOpenIssues() returns String; // Returns JSON string with my open issues
+  @open
   function getAbapOpenIssues() returns String; // Returns JSON string with my open ABAP issues
 }

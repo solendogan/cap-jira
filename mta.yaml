@@ -54,17 +54,8 @@ resources:
       service-plan: lite
       config:
         HTML5Runtime_enabled: false
-        init_data:
-          instance:
-            destinations:
-              - Name: "jira-api"
-                Description: "JIRA API Connection"
-                URL: "https://sanofi.atlassian.net"
-                Type: "HTTP"
-                ProxyType: "Internet"
-                Authentication: "BasicAuthentication"
-                # User and Password will be configured manually after deployment
-            existing_destinations_policy: "update"
+        # Note: Configure the "jira" destination manually in BTP Cockpit
+        # instead of creating a new one here
   
   - name: cap-jira-xsuaa
     type: org.cloudfoundry.managed-service

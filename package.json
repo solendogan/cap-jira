@@ -24,18 +24,25 @@
     "@sap/cds-dk": ">=8"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "start-local": "cds watch --profile development",
+    "test": "node tests/unit/jira-connection.test.js",
+    "test:unit": "node tests/unit/jira-connection.test.js",
+    "test:integration": "tests/integration/test-jira-integration.sh",
+    "test:local": "tests/scripts/local-test-runner.sh all",
+    "test:env": "tests/scripts/local-test-runner.sh env",
+    "test:direct": "tests/scripts/local-test-runner.sh direct",
+    "test:oauth": "node tests/scripts/test-oauth.js",
+    "test:btp-oauth": "tests/scripts/test-btp-oauth.sh"
   },
   "cds": {
     "requires": {
-      "[development]": {
-        "db": {
+      "db": {
+        "[development]": {
           "kind": "sqlite",
           "impl": "@cap-js/sqlite"
-        }
-      },
-      "[production]": {
-        "db": {
+        },
+        "[production]": {
           "kind": "hana",
           "impl": "@cap-js/hana"
         }

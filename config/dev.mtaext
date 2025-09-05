@@ -17,19 +17,4 @@ modules:
           DESTINATION_DEBUG: true
 
 resources:
-  - name: cap-jira-destination
-    parameters:
-      config:
-        init_data:
-          instance:
-            destinations:
-              - Name: "jira-api-dev"
-                Description: "JIRA API Connection - Development"
-                URL: "https://sanofi.atlassian.net"
-                Type: "HTTP"
-                ProxyType: "Internet"
-                Authentication: "BasicAuthentication"
-                # Additional properties for development
-                HTML5Runtime_enabled: false
-                WebIDEEnabled: true
-            existing_destinations_policy: "update"
+  # Using existing jira destination - no overrides needed for dev
